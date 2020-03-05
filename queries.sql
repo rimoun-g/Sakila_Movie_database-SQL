@@ -8,7 +8,8 @@ updated_cats AS
     JOIN category c
     ON c.category_id = fc.category_id), 
 updated_qrental AS 
-    (SELECT DISTINCT f.title AS film_title, uc.name, f.rental_duration, ntile(4) OVER 			(PARTITION BY f.rental_duration) AS standard_quartile
+    (SELECT DISTINCT f.title AS film_title, uc.name, f.rental_duration, ntile(4) OVER 			
+     (PARTITION BY f.rental_duration) AS standard_quartile
     FROM film f
     JOIN updated_cats uc
     ON uc.film_id = f.film_id
@@ -35,7 +36,7 @@ ORDER BY 3 DESC;
 
 WITH 
 top_10 AS 
-	(SELECT c.customer_id, CONCAT (c.first_name, ' ', c.last_name) fullname, COUNT(*) 		pay_countpermon, SUM(p.amount)
+	(SELECT c.customer_id, CONCAT (c.first_name, ' ', c.last_name) fullname, COUNT(*) pay_countpermon, SUM(p.amount)
 	FROM payment p
 	JOIN customer c
 	ON p.customer_id = c.customer_id
@@ -58,7 +59,7 @@ ORDER BY 2 DESC;
 /*  Q4 - Who are the customers with highest difference in rental orders from a month to another?*/
 WITH
 top_10 AS
-	(SELECT c.customer_id, CONCAT (c.first_name, ' ', c.last_name) fullname, COUNT(*) 		pay_countpermon, SUM(p.amount) total_rents
+	(SELECT c.customer_id, CONCAT (c.first_name, ' ', c.last_name) fullname, COUNT(*) pay_countpermon, SUM(p.amount) total_rents
 	FROM payment p
 	JOIN customer c
 	ON p.customer_id = c.customer_id
